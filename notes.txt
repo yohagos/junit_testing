@@ -1,21 +1,21 @@
 JUnit - Leveraging Test Lifecycle:
 
-Usually each Testcase (Test) will be run in their own class instance
-if there are 3 Tests in a class, then there will be three class instance created to
-run each separated from each other. Simplest and easiest mode to run all Tests
+    Usually each Testcase (Test) will be run in their own class instance
+    if there are 3 Tests in a class, then there will be three class instance created to
+    run each separated from each other. Simplest and easiest mode to run all Tests
 
-There is the possibility to run PER_CLASS, but for pure unit testing it would not be needed
+    There is the possibility to run PER_CLASS, but for pure unit testing it would not be needed
 
 ######
 
 JUnit Lifecycle Methods (with the following order):
-- @BeforeAll (once in a Testclass before all Tests are started)
-- @AfterAll (once after all Tests in a Testclass are finished)
-- @BeforeEach (before each individual Test method is run)
-- @AfterEach (after each individual Test method is performed)
+    - @BeforeAll (once in a Testclass before all Tests are started)
+    - @AfterAll (once after all Tests in a Testclass are finished)
+    - @BeforeEach (before each individual Test method is run)
+    - @AfterEach (after each individual Test method is performed)
 
-These annotations are used to create Methods that can perform
-common setup or teardown code needed before and after tests run
+    These annotations are used to create Methods that can perform
+    common setup or teardown code needed before and after tests run
 
 Example:
 
@@ -41,13 +41,29 @@ class MyTest {
 
 Execution:
 
-1. initAll()
+    1. initAll()
 
-2. init() -> test1() -> teardown()
+    2. init() -> test1() -> teardown()
 
-3. init() -> test2() -> teardown()
+    3. init() -> test2() -> teardown()
 
-4. teardownAll()
+    4. teardownAll()
 
 ######
 
+JUnit Test Control Capabilities:
+
+    New Test Types:
+
+    **  - Parameterized Tests (multiple test runs with different data)
+        - Repeated tests (load / performance tests)
+        - Dynamic tests (create test "on the fly" or runtime)
+
+    Test Execution Control:
+
+    **  - Execute tests conditionally (disable test methods or decide on a condition which tests needs to run)
+        - Control the order of test execution
+        - Impose timeouts on tests (can be useful by performance testing)
+        - Execute tests in parallel
+
+    (most likely to be used are marked by **)
