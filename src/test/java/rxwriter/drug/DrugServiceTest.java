@@ -1,6 +1,7 @@
 package rxwriter.drug;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import rxwriter.drug.database.DrugRecord;
 import rxwriter.drug.database.DrugSource;
 
@@ -52,10 +53,10 @@ class DrugServiceTest implements DrugSource {
           DrugClassification.ANALGESIC, DrugClassification.PLATELET_AGGREGATION_INHIBITORS
         };
         DispensableDrug drug = foundDrugs.get(0);
-        /*
-        If one of the first assertions fail, the following assertions will be skipped, therefore not an ideal test pattern
 
-        assertEquals("aspirin", drug.drugName());
+        // If one of the first assertions fail, the following assertions will be skipped, therefore not an ideal test pattern
+
+        /*assertEquals("aspirin", drug.drugName());
         assertFalse(drug.isControlled());
         assertEquals(2, drug.drugClassifications().length);
         assertArrayEquals(expectedClassification, drug.drugClassifications());*/
@@ -66,6 +67,23 @@ class DrugServiceTest implements DrugSource {
                 () -> assertEquals(2, drug.drugClassifications().length),
                 () -> assertArrayEquals(expectedClassification, drug.drugClassifications())
         );
+    }
+
+    @Test
+    void drugAreReturnedSortedMockito() {
+        List<DrugRecord> records = new ArrayList<>();
+        records.add(new DrugRecord("asmanex", new int[] {301}, 0));
+        records.add(new DrugRecord("aspirin", new int[] {3645, 3530}, 0));
+        DrugSource mockDrugSource = Mockito.mock(DrugSource.class);
+        Mockito.when(mockDrugSource.findDrugsStartingWith("as"))
+                .thenReturn(records);
+        DrugService service = new DrugService(mockDrugSource);
+
+        List<DispensableDrug> foundDrugs = service.findDrugsStartingWith("as");
+        assertNotNull(foundDrugs);
+        assertEquals(2, foundDrugs.size());
+        assertEquals("asmanex", foundDrugs.get(0).drugName());
+        assertEquals("aspirin", foundDrugs.get(1).drugName());
     }
 
     @Override
