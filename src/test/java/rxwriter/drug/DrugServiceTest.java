@@ -1,5 +1,6 @@
 package rxwriter.drug;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import rxwriter.drug.database.DrugRecord;
@@ -12,9 +13,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DrugServiceTest implements DrugSource {
 
+    private DrugService service;
+
+    @BeforeEach
+    void setup() {
+        service = new DrugService(this);
+    }
+
     @Test
     void drugAreReturnedSorted() {
-        DrugService service = new DrugService(this);
+        //DrugService service = new DrugService(this);
         List<DispensableDrug> foundDrugs = service.findDrugsStartingWith("as");
         assertNotNull(foundDrugs);
         assertEquals(2, foundDrugs.size());
@@ -38,7 +46,7 @@ class DrugServiceTest implements DrugSource {
 
     @Test
     void throwsExceptionOnEmptyStringStartsWith() {
-        DrugService service = new DrugService(this);
+        //DrugService service = new DrugService(this);
         Exception exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> service.findDrugsStartingWith("  "));
@@ -47,7 +55,7 @@ class DrugServiceTest implements DrugSource {
 
     @Test
     void setDrugPropertiesCorrectly() {
-        DrugService service = new DrugService(this);
+        //DrugService service = new DrugService(this);
         List<DispensableDrug> foundDrugs = service.findDrugsStartingWith("aspirin");
         DrugClassification[] expectedClassification = new DrugClassification[] {
           DrugClassification.ANALGESIC, DrugClassification.PLATELET_AGGREGATION_INHIBITORS
@@ -69,6 +77,9 @@ class DrugServiceTest implements DrugSource {
         );
     }
 
+    /*
+    Mockito example: in which Mockito generates the mock information
+
     @Test
     void drugAreReturnedSortedMockito() {
         List<DrugRecord> records = new ArrayList<>();
@@ -84,7 +95,7 @@ class DrugServiceTest implements DrugSource {
         assertEquals(2, foundDrugs.size());
         assertEquals("asmanex", foundDrugs.get(0).drugName());
         assertEquals("aspirin", foundDrugs.get(1).drugName());
-    }
+    }*/
 
     @Override
     public List<DrugRecord> findDrugsStartingWith(String startingString) {

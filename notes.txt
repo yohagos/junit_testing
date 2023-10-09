@@ -1,0 +1,53 @@
+JUnit - Leveraging Test Lifecycle:
+
+Usually each Testcase (Test) will be run in their own class instance
+if there are 3 Tests in a class, then there will be three class instance created to
+run each separated from each other. Simplest and easiest mode to run all Tests
+
+There is the possibility to run PER_CLASS, but for pure unit testing it would not be needed
+
+######
+
+JUnit Lifecycle Methods (with the following order):
+- @BeforeAll (once in a Testclass before all Tests are started)
+- @AfterAll (once after all Tests in a Testclass are finished)
+- @BeforeEach (before each individual Test method is run)
+- @AfterEach (after each individual Test method is performed)
+
+These annotations are used to create Methods that can perform
+common setup or teardown code needed before and after tests run
+
+Example:
+
+class MyTest {
+    @BeforeAll
+    static void initAll() {...}
+
+    @BeforeEach
+    void init() {...}
+
+    @Test
+    void test1() {..}
+
+    @Test
+    void test2() {..}
+
+    @AfterEach
+    void teardown() {..}
+
+    @AfterAll
+    static void teardownAll() {..}
+}
+
+Execution:
+
+1. initAll()
+
+2. init() -> test1() -> teardown()
+
+3. init() -> test2() -> teardown()
+
+4. teardownAll()
+
+######
+
