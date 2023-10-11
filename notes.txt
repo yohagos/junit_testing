@@ -67,3 +67,20 @@ JUnit Test Control Capabilities:
         - Execute tests in parallel
 
     (most likely to be used are marked by **)
+
+######
+
+Parameterized Tests:
+
+    Achieved through annotations
+
+    Numerous ways to provide arguments:
+        - @ValueSource
+        - @Null and @Empty
+        - @EnumSource
+        - @MethodSource
+        - @CsvSource
+        - @CsvFileSource
+        - @ArgumentsSource
+        EACH INVOCATION HAS TEST LIFECYCLE
+
