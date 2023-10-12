@@ -1,7 +1,10 @@
 package rxwriter.drug;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.*;
 import org.mockito.Mockito;
 import rxwriter.drug.database.DrugRecord;
 import rxwriter.drug.database.DrugSource;
@@ -33,17 +36,23 @@ class DrugServiceTest implements DrugSource {
     /*
     AssertEquals not possible with DispensableDrug Object, because of the DrugClassification Array.
     Those Arrays have not the same signature in Memmory, therefore the equals comparator will fail
-
+*/
+    //@Disabled
     @Test
+    @Tag("database")
     void drugReturnedSorted() {
         List<DispensableDrug> expectedList = new ArrayList<>();
         expectedList.add(new DispensableDrug("asmanex", new DrugClassification[] {DrugClassification.NASAL_CORTICOSTEROIDS}, false));
         expectedList.add(new DispensableDrug("aspirin", new DrugClassification[] {DrugClassification.ANALGESIC, DrugClassification.PLATELET_AGGREGATION_INHIBITORS}, false));
-        DrugService service = new DrugService();
+        /*DrugService service = new DrugService();
         List<DispensableDrug> foundDrugs = service.findDrugsStartingWith("as");
-        assertEquals(expectedList, foundDrugs);
-    }*/
+        assertEquals(expectedList, foundDrugs);*/
+    }
 
+    // @EnabledOnJre(JRE.JAVA_9) enables test for Java 9
+    // @EnabledForJreRange(min = JRE.JAVA_8, max = JRE.JAVA_18) // enables text if jre version between Range
+    @EnabledForJreRange(min = JRE.JAVA_17)
+    // @EnabledOnOs(OS.SOLARIS) // enables test for specific
     @Test
     void throwsExceptionOnEmptyStringStartsWith() {
         //DrugService service = new DrugService(this);
