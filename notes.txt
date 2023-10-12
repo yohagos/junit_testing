@@ -101,3 +101,16 @@ Test Report Guidelines
         - to detail the scenario and arguments
         - when there's a failure, the failure message in the report should be clear
 
+#####
+
+Some Unit testing Benefits
+
+    - Aid in design
+    - Document purpose of code
+    - Give confidence to change code
+
+########
+
+Learning MOre:
+    -> Test Driven Development
+    -> Best Practices
