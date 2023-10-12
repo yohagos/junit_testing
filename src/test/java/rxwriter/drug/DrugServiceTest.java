@@ -1,9 +1,6 @@
 package rxwriter.drug;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.*;
 import org.mockito.Mockito;
 import rxwriter.drug.database.DrugRecord;
@@ -14,6 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("DrugService should")
 class DrugServiceTest implements DrugSource {
 
     private DrugService service;
@@ -24,11 +22,12 @@ class DrugServiceTest implements DrugSource {
     }
 
     @Test
+    @DisplayName("return drugs from database sorted by drug name")
     void drugAreReturnedSorted() {
         //DrugService service = new DrugService(this);
         List<DispensableDrug> foundDrugs = service.findDrugsStartingWith("as");
         assertNotNull(foundDrugs);
-        assertEquals(2, foundDrugs.size());
+        assertEquals(2, foundDrugs.size(), () -> "two drugs with 'as' should be returned from test data.");
         assertEquals("asmanex", foundDrugs.get(0).drugName());
         assertEquals("aspirin", foundDrugs.get(1).drugName());
     }
@@ -38,31 +37,47 @@ class DrugServiceTest implements DrugSource {
     Those Arrays have not the same signature in Memmory, therefore the equals comparator will fail
 */
     //@Disabled
-    @Test
-    @Tag("database")
+    /*DrugService@Test
     void drugReturnedSorted() {
         List<DispensableDrug> expectedList = new ArrayList<>();
         expectedList.add(new DispensableDrug("asmanex", new DrugClassification[] {DrugClassification.NASAL_CORTICOSTEROIDS}, false));
         expectedList.add(new DispensableDrug("aspirin", new DrugClassification[] {DrugClassification.ANALGESIC, DrugClassification.PLATELET_AGGREGATION_INHIBITORS}, false));
-        /*DrugService service = new DrugService();
+         service = new DrugService();
         List<DispensableDrug> foundDrugs = service.findDrugsStartingWith("as");
-        assertEquals(expectedList, foundDrugs);*/
-    }
+        assertEquals(expectedList, foundDrugs);
+    }*/
 
     // @EnabledOnJre(JRE.JAVA_9) enables test for Java 9
     // @EnabledForJreRange(min = JRE.JAVA_8, max = JRE.JAVA_18) // enables text if jre version between Range
-    @EnabledForJreRange(min = JRE.JAVA_17)
+    //@EnabledForJreRange(min = JRE.JAVA_17)
     // @EnabledOnOs(OS.SOLARIS) // enables test for specific
-    @Test
-    void throwsExceptionOnEmptyStringStartsWith() {
-        //DrugService service = new DrugService(this);
-        Exception exception = assertThrows(
-                IllegalArgumentException.class,
-                () -> service.findDrugsStartingWith("  "));
-        System.out.println(exception.getMessage());
+
+    @Nested
+    @DisplayName("throw an illegal argument exception")
+    class ThrowsExceptionTests {
+        @Test
+        @DisplayName("when passed a blank string for startingWith")
+        void throwsExceptionOnBlankStringStartsWith() {
+            //DrugService service = new DrugService(this);
+            Exception exception = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> service.findDrugsStartingWith("  "));
+            System.out.println(exception.getMessage());
+        }
+
+        @Test
+        @DisplayName("when passed a empty string for startingWith")
+        void throwsExceptionOnEmptyStringStartsWith() {
+            //DrugService service = new DrugService(this);
+            Exception exception = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> service.findDrugsStartingWith(""));
+            System.out.println(exception.getMessage());
+        }
     }
 
     @Test
+    @DisplayName("return dispensable drugs with all properties set correctly from database")
     void setDrugPropertiesCorrectly() {
         //DrugService service = new DrugService(this);
         List<DispensableDrug> foundDrugs = service.findDrugsStartingWith("aspirin");
@@ -112,6 +127,7 @@ class DrugServiceTest implements DrugSource {
         if (startingString.equals("as")) {
             records.add(new DrugRecord("asmanex", new int[] {301}, 0));
             records.add(new DrugRecord("aspirin", new int[] {3645, 3530}, 0));
+            //records.add(new DrugRecord("aspirin, children's", new int[] {3645, 3530}, 0));
         } else if (startingString.equals("aspirin")) {
             records.add(new DrugRecord("aspirin", new int[] {3645, 3530}, 0));
         }

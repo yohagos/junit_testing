@@ -84,3 +84,20 @@ Parameterized Tests:
         - @ArgumentsSource
         EACH INVOCATION HAS TEST LIFECYCLE
 
+#####
+
+Test Report Guidelines
+
+    - Keep console output in tests to a minimum -> to keep it clearly laid out
+    - What a test is for - what it's testing - should be as clear as possible in the report
+        -> clear name for test method
+        - In this Branch we'll cover display names and nested tests in this module
+    - When there's a failure, the failure message in the report should be clear
+        - We'll cover using custom failure messages in this module
+
+    Common reasons to use a failure message:
+
+        - to make what the test is for more clear when there is a failure
+        - to detail the scenario and arguments
+        - when there's a failure, the failure message in the report should be clear
+
